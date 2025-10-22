@@ -2,11 +2,7 @@
 
 # A Circular Window-based Cascade Transformer for Online Action Detection
 
-## Introduction
-
 This is a PyTorch implementation for our "A Circular Window-based Cascade Transformer for Online Action Detection".
-
-![network](assert/network.png?raw=true)
 
 ## Environment
 
