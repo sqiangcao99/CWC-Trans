@@ -1,6 +1,6 @@
 
 
-# E2E-LOAD: End-to-End Long-form Online Action Detection
+# A Circular Window-based Cascade Transformer for Online Action Detection
 
 ## Introduction
 
