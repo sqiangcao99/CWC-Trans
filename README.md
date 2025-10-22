@@ -1,6 +1,6 @@
 
 
-# A Circular Window-based Cascade Transformer for Online Action Detection
+# A Circular Window-based Cascade Transformer for Online Action Detection
 
 ## Introduction
 
