@@ -1,0 +1,71 @@
+OUTPUT_DIR: ''
+DATA:
+  DATA_NAME: 'THUMOS'
+  DATA_ROOT: ./data/thumos
+  MOVE_STEP: 32
+  FPS:  4
+  AUG:
+    ENABLE: False
+    TYPE: 'first drop'
+    FIRST_DROP_RATE: 0.1
+    FIRST_DROP_LENGTH: 256
+INPUT:
+  MODALITY: 'twostream'
+  MOTION_FEATURE: flow_anet_resnet50  
+  VISUAL_FEATURE: rgb_anet_resnet50
+MODEL:
+  MODEL_NAME: 'LSTR'
+  FEATURE_HEAD:
+    LINEAR_ENABLED: True
+    LINEAR_OUT_FEATURES: 1024
+    LINEAR_OUT_FEATURES_LONG: 256
+  LSTR:
+    NUM_HEADS: 16
+    DIM_FEEDFORWARD: 1024 
+    DIM_FEEDFORWARD_LONG: 256
+    DROPOUT: 0.2 
+    ACTIVATION: 'relu'
+    LONG_MEMORY_SECONDS: 512
+    LONG_MEMORY_SAMPLE_RATE: 4 
+    WORK_MEMORY_SECONDS: 8.0 
+    WORK_MEMORY_SAMPLE_RATE: 1 
+    ENC_MODULE: [
+      [8, 1, True], 
+    ]
+    DEC_MODULE: [-1, 2, True] 
+
+    HISTORY:
+      WINDOW:
+        SIZE: 32
+        OPROJ: False
+
+  GASSION:
+    POS_RANGE: 1.
+    MIU: 0.
+    SIG: 1. 
+    NORMALIZE: True
+  CRITERIONS: [['MCE', {}]]
+
+DATA_LOADER:
+  BATCH_SIZE: 16
+  NUM_WORKERS: 16
+  PIN_MEMORY: True
+SOLVER:
+  NUM_EPOCHS: 25
+  OPTIMIZER: 'adam'
+  BASE_LR: 10e-05 
+  WEIGHT_DECAY: 5e-05
+  SCHEDULER:
+    SCHEDULER_NAME: 'warmup_cosine'
+    WARMUP_FACTOR: 0.3
+    WARMUP_EPOCHS: 10.0
+    WARMUP_METHOD: 'linear'
+
+AIM:
+  ENABLE: False
+  EXPERIMENT_NAME: 'Window Base'
+  RUN_NAME: 'THUMOS' 
+
+CASCADE:
+  SA:
+    NUM_CLASSES: 22
