@@ -44,4 +44,4 @@ CUDA_VISIBLE_DEVICES=0 python tools/test_net.py \
 
 ## Acknowledgments
 
-Built upon [LSTR](https://github.com/amazon-science/long-short-term-transformer).
+This project is built upon the [LSTR](https://github.com/amazon-science/long-short-term-transformer) framework. We thank the authors for their open-source implementation and valuable contributions.
