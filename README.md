@@ -2,48 +2,46 @@
 
 # A Circular Window-based Cascade Transformer for Online Action Detection
 
-This is a PyTorch implementation for our "A Circular Window-based Cascade Transformer for Online Action Detection".
-
-## Environment
-
-
+PyTorch implementation of "A Circular Window-based Cascade Transformer for Online Action Detection".
 
 ## Data Preparation
 
-1. Download the [`THUMOS'14`](https://www.crcv.ucf.edu/THUMOS14/) and [`TVSeries`](https://homes.esat.kuleuven.be/psi-archive/rdegeest/TVSeries.html) datasets.
-
-2. Extract video frames at 24 FPS;
-
-3. For constructing the target files, we follow the method used in [LSTR](https://github.com/amazon-science/long-short-term-transformer).
-
-4. The data should be organized according to the following structure. Please modify the root path of the dataset in the configuration file of the corresponding dataset.
+1. Download datasets: [`THUMOS'14`](https://www.crcv.ucf.edu/THUMOS14/) and [`TVSeries`](https://homes.esat.kuleuven.be/psi-archive/rdegeest/TVSeries.html)
+2. Extract video frames at 24 FPS
+3. Construct target files and feature files following [LSTR](https://github.com/amazon-science/long-short-term-transformer) method
+4. Organize data structure:
 
     ```
-    $DATASET_ROOT
-    ├── frames/
-    |   ├── video_test_0000004/ (6L images)
-    |   |   ├── img_00000.jpg
-    |   |   ├── ...
-    │   ├── ...
-    ├── targets/
-    |   ├── video_test_0000004.npy (of size L x 22)
-    |   ├──...
+    $DATA_ROOT
+    ├── rgb_kinetics_resnet50/          # RGB features (L x 2048)
+    ├── flow_kinetics_bninception/       # Flow features (L x 1024)  
+    └── target_perframe/                 # Labels (L x 22)
     ```
 
 ## Training
 
-* X
+Train the model using distributed training across multiple GPUs:
 
-The commands are as follows.
+```shell
+export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+PATH_TO_CONFIG_FILE=""
+PORT=$(shuf -i 25000-35000 -n 1)
+CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.run \
+  --nproc_per_node=4 --master_port=$PORT tools/train_net.py \
+  --config_file $PATH_TO_CONFIG_FILE
+```
 
-XX
+## Evaluation
 
-## Online Inference
+Evaluate the trained model on the test dataset:
 
-There are *two kinds* of evaluation methods in our code.
+```shell
+export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+PATH_TO_CONFIG_FILE=""
+CUDA_VISIBLE_DEVICES=0 python tools/test_net.py \
+  --config_file $PATH_TO_CONFIG_FILE
+```
 
-X
+## Acknowledgments
 
-## Acknowledge
-
-The project is built upon [MViTv2](https://github.com/facebookresearch/SlowFast/blob/main/projects/mvitv2/README.md) and [LSTR](https://github.com/amazon-science/long-short-term-transformer).
+Built upon [LSTR](https://github.com/amazon-science/long-short-term-transformer).
