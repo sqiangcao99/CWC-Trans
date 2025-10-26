@@ -8,7 +8,7 @@ class HistoryDecoder(nn.Module):
     def __init__(
                     self, 
                     output_tokens=[32, 128, 512, 512],
-                    num_layers=[4, 4, 4, 4], # 每个都有四层;
+                    num_layers=[4, 4, 4, 4], 
                     embed_dim = [1024, 1024, 1024, 1024], 
                     num_heads = [4,4,4,4],
                     window_size = [4, 8, 32, 64],
@@ -17,7 +17,7 @@ class HistoryDecoder(nn.Module):
                     tsm_dropout = 0.1, 
                     islocal= False,
                     iscut = False,
-                    shcut_dict = None): # 最后一次不使用TSM
+                    shcut_dict = None): 
         super().__init__()
         self.depth = len(output_tokens) - 1
         
